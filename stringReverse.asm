@@ -30,10 +30,10 @@ EXIT:
 DEC SI
          
 MOV AH, 2
-MOV DL, 0DH ;enter new line
+MOV DL, 0DH
 INT 21H
 MOV AH, 2
-MOV DL, 0AH ; move cursour to the first
+MOV DL, 0AH
 INT 21H
          
 NEXT2:

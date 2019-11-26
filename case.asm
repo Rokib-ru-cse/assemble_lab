@@ -1,40 +1,43 @@
 .MODEL SMALL
 .STACK 100H
 .CODE
-
-MAIN PROC
-
-    ; 1 will request input
+MAIN PROC  
     
-MOV AH,1
-INT 21H  
-    ; storing input into temporary register
-MOV BL,AL
+MOV AH, 1
+INT 21H 
 
-    ; converting upper to lower and vice-versa
+MOV BL, AL 
 
-CMP BL,91
-JG Line1
-
-ADD BL,64
-Line1:
-SUB BL,32
-
-    ;ADD DL,-10
-    ; PRINTING NEW LINE (actually printing 80 chars)
-    ; setting for output request
-MOV AH,2 
-MOV DL,0AH
+MOV AH, 2
+MOV DL, 0AH
 INT 21H
-MOV DL,0DH
-INT 21H
+MOV DL, 0DH
+INT 21H 
 
-MOV DL,BL
-MOV AH,2
-INT 21H
+MOV AL, BL
+        
+CMP AL, 'a'
+JGE LOWER
+CMP Al,'A'
+JL DISP
+CMP AL ,'Z'
+JG DISP
+ADD AL, 20H
+JMP DISP
 
-MOV AH,4CH  ;eat extra printer char
-INT 21H
+LOWER:
+    CMP AL ,'z'
+    JLE LOW
+    JMP DISP
+    LOW:
+        SUB AL, 20H
+        JMP DISP
 
-MAIN ENDP
-END MAIN
+DISP:         
+    MOV DL, AL 
+    MOV AH,2
+    INT 21H
+    MOV AH, 4CH
+    INT 21H
+    MAIN ENDP
+    END MAIN
